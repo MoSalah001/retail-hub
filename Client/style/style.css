@@ -1,0 +1,104 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #123;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    place-items: center;
+}
+
+#form-div {
+    display: flex;
+    place-items: center;
+    place-content: center;
+    background-color: #123;
+    width: 100vw;
+    margin: 0;
+    height: 100vh;
+    padding: 0;
+}
+
+#form-div form {
+    width: 25%;
+    margin: 0 auto;
+}
+
+
+#form-div form label {
+    color: rgb(0,255,255);
+    font-size: 28px;
+}
+
+#form-div form fieldset {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid rgb(0,255,255);
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.1);
+}
+#form-div form legend {
+    display: flex;
+    width: 100%;
+    place-content: center;
+    place-items: center;
+    color: rgb(0,255,255);
+    font-size: 60px;
+    margin-bottom: 25px;
+    text-shadow: 0px 0px 5px rgb(0,200,200);
+    /* animation: animateTextShadow 2.5s linear infinite; */
+}
+
+#form-div form fieldset input {
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+#form-div form input[type = button] {
+    place-items: center;
+    place-content: center;
+    background-color: transparent;
+    font-size: 28px;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    color: rgb(0,255,255);
+    transition: 0.3s linear;
+    border: rgb(0,255,255) 2px solid;
+    border-radius: 10px;
+}
+
+#form-div form input[type = button]:hover {
+    color: #123;
+    background-color: rgb(0,255,255);
+}
+
+@keyframes animateTextShadow {
+    0% {
+        text-shadow: 5px 0px 5px red;
+    }
+    51% {
+        text-shadow: -5px 0px 5px red;
+    }
+    100% {
+        text-shadow: 5px 0px 5px red;
+    }
+}
+
+
+@media only screen and ( max-width: 800px) {
+    body {
+        overflow: hidden;
+    }
+
+    #form-div {
+        height: 80vh;
+    }
+
+    #form-div form {
+        width: 75%;
+    }
+}
