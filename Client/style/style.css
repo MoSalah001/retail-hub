@@ -10,6 +10,7 @@ body {
 
 #form-div {
     display: flex;
+    flex-direction: column;
     place-items: center;
     place-content: center;
     background-color: #123;
@@ -75,7 +76,10 @@ body {
     color: #123;
     background-color: rgb(0,255,255);
 }
-
+#form-div #message {
+    color: red;
+    font-size: 24px;
+}
 @keyframes animateTextShadow {
     0% {
         text-shadow: 5px 0px 5px red;
