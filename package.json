@@ -5,15 +5,17 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
-    "test": "nodemon server.mjs",
-    "start": "node server.mjs"
+    "test": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Mohamed Salah-Eldeen Mahmoud <mhmdsalah707@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0"
   },
   "devDependencies": {
