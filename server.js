@@ -1,5 +1,5 @@
 const express = require("express")
-const login = require("./Routes/login")
+const user = require("./Routes/user")
 const mongo = require('mongoose')
 const env = require('dotenv')
 
@@ -18,7 +18,7 @@ const app = express();
 const port = 3000;
 app.use(express.json());
 app.use(express.static('Client'));
-app.use('/user',login);
+app.use('/user',user);
 
 
 

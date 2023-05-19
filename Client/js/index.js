@@ -13,5 +13,11 @@ function signIn(e){
     xhr.open("POST","user/login",false);
     xhr.setRequestHeader('content-type','application/json');
     xhr.send(JSON.stringify(formDaTa));
-    response.textContent=JSON.parse(xhr.responseText).message;
+    if(xhr.status === 401){
+        response.textContent=JSON.parse(xhr.responseText).message;
+
+    }
+    if(xhr.status === 200){
+        window.location.assign(xhr.responseURL)
+    }    
 }

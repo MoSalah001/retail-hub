@@ -1,7 +1,13 @@
+:root {
+    --bg-color:#123;
+    --font-color:rgb(0,255,255);
+}
+
+
 body {
     padding: 0;
     margin: 0;
-    background-color: #123;
+    background-color: var(--bg-color);
     display: flex;
     flex-direction: column;
     place-content: center;
@@ -13,11 +19,9 @@ body {
     flex-direction: column;
     place-items: center;
     place-content: center;
-    background-color: #123;
+    background-color: var(--bg-color);
     width: 100vw;
-    margin: 0;
     height: 100vh;
-    padding: 0;
 }
 
 #form-div form {
@@ -27,14 +31,14 @@ body {
 
 
 #form-div form label {
-    color: rgb(0,255,255);
+    color: var(--font-color);
     font-size: 28px;
 }
 
 #form-div form fieldset {
     display: flex;
     flex-direction: column;
-    border: 2px solid rgb(0,255,255);
+    border: 2px solid var(--font-color);
     border-radius: 10px;
     background-color: rgba(0,0,0,0.1);
 }
@@ -43,10 +47,10 @@ body {
     width: 100%;
     place-content: center;
     place-items: center;
-    color: rgb(0,255,255);
+    color: var(--font-color);
     font-size: 60px;
     margin-bottom: 25px;
-    text-shadow: 0px 0px 5px rgb(0,200,200);
+    text-shadow: 0px 0px 5px var(--font-color);
     /* animation: animateTextShadow 2.5s linear infinite; */
 }
 
@@ -66,15 +70,15 @@ body {
     text-align: center;
     width: 100%;
     margin-top: 10px;
-    color: rgb(0,255,255);
+    color: var(--font-color);
     transition: 0.3s linear;
-    border: rgb(0,255,255) 2px solid;
+    border: var(--font-color) 2px solid;
     border-radius: 10px;
 }
 
 #form-div form input[type = button]:hover {
-    color: #123;
-    background-color: rgb(0,255,255);
+    color: var(--bg-color);
+    background-color: var(--font-color);
 }
 #form-div #message {
     color: red;
