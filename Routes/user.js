@@ -42,7 +42,12 @@ router.post('/login', async (req,res)=>{
                 res.cookie('token',token,{
                     httpOnly:true,
                     expires: new Date(maxAge) // as expires takes a date object
-                }).status(200).redirect('/main.html')
+                })
+                res.cookie('user',user[0].StaffID,{
+                    expires:new Date(maxAge)
+                })
+                
+                res.redirect(301,'/main.html')
             }
         })
     } catch (err){

@@ -2,6 +2,7 @@ const express = require("express")
 const user = require("./Routes/user")
 const mongo = require('mongoose')
 const env = require('dotenv')
+const check = require('./Routes/check')
 
 env.config();
 mongo.connect(process.env.DBHost,{
@@ -19,6 +20,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.static('Client'));
 app.use('/user',user);
+app.use('/check',check);
 
 
 
