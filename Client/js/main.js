@@ -16,4 +16,7 @@ window.onload = ()=>{
             window.location.assign(window.origin)
         }
     }
+    const userID = document.getElementById('user')
+    userID.innerHTML = "Staff ID : " + `<span>${document.cookie.split('=')[1]}</span>`
+
 }

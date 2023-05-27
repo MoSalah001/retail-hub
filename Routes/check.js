@@ -13,7 +13,7 @@ router.post('/',(req,res)=>{
             httpOnly:true
         })
         res.cookie('user','')
-        res.status(401).send({message:'window.origin'})
+        res.status(401).send({message:'unauthorised'})
     }
 })
 
