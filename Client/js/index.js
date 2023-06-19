@@ -1,7 +1,19 @@
 const loginBtn = document.getElementById("login");
 const response = document.getElementById("message");
+const userInput = document.getElementById("id");
+const passInput = document.getElementById("pass");
+console.log(userInput , passInput);
+
+userInput.addEventListener('keydown',enterSignIn);
+passInput.addEventListener('keydown',enterSignIn);
 
 loginBtn.addEventListener('click',signIn);
+
+function enterSignIn(e){
+    if(e.key == 'Enter'){
+        signIn(e);    
+    }
+}
 
 function signIn(e){
     e.preventDefault();

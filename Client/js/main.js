@@ -13,6 +13,15 @@ window.onload = ()=>{
     
     checkLoggedUser();
 
+    function salesBranched(){
+        const nl = document.createElement('div')
+        nl.textContent = "New Line"
+        nl.id = 'nl'
+        const al = document.createElement('div')
+        al.textContent = "All Lines"
+        al.id = 'al'
+    }
+
     function mainMenu(){ 
         container.innerHTML = ''
         main(container); 
