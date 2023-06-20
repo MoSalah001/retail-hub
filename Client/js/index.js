@@ -38,7 +38,7 @@ window.onload = ()=>{
     function checkLoggedUser(){     //check if user is logged
         const user = document.cookie.slice('5')
         if(user.length < 2){
-            window.location.assign(window.origin);
+            return null;
         } else  {
             const xhr = new XMLHttpRequest()
             xhr.open('post','/check')
