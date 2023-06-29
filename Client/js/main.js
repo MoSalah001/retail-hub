@@ -55,6 +55,7 @@ window.onload = ()=>{
         const date = document.createElement('input')
         date.type = 'date'
         date.id = 'date'
+        date.placeholder = "Selling Date"
         const preLines = ['Select Tier',30,45,70,100,200,'14PTS']
         const lines = document.createElement('select')
         lines.id = 'LTier'
