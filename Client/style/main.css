@@ -119,12 +119,16 @@ h3 span {
     .container button {
         margin: 40px 0px 10px 0px;
         width: 80%;
-        height: 10.5vh;
+        height: 8vh;
         background-color: rgb(0, 200, 0);
         border-radius: 10px;
         font: 32px Arial, sans-serif;
         color: #123;
         text-align: center;
+    }
+
+    .container #backBtn {
+        height: 8vh;
     }
     
 }
