@@ -50,7 +50,7 @@ h3 span {
 
 .container select {
     width: 15%;
-    height: 10vh;
+    height: 5vh;
     background-color: rgb(200, 200, 200);
     border-radius: 10px;
     font: 32px Arial, sans-serif;
@@ -59,7 +59,7 @@ h3 span {
 }
 .container input[type = 'date'] {
     width: 15%;
-    height: 10vh;
+    height: 5vh;
     background-color: rgb(200, 200, 200);
     border-radius: 10px;
     font: 32px Arial, sans-serif;
@@ -69,7 +69,7 @@ h3 span {
 
 .container button {
     width: 15%;
-    height: 10.5vh;
+    height: 6vh;
     background-color: rgb(200, 200, 200);
     border-radius: 10px;
     font: 32px Arial, sans-serif;
