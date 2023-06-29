@@ -15,4 +15,4 @@ const users = mongo.Schema({
     }
 });
 
-module.exports = mongo.model('user',users)
+module.exports = mongo.model('users',users,'users')

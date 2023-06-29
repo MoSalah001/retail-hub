@@ -48,6 +48,40 @@ h3 span {
     transition: 0.15s;
 }
 
+.container select {
+    width: 15%;
+    height: 10vh;
+    background-color: rgb(200, 200, 200);
+    border-radius: 10px;
+    font: 32px Arial, sans-serif;
+    color: #123;
+    text-align: center;
+}
+.container input[type = 'date'] {
+    width: 15%;
+    height: 10vh;
+    background-color: rgb(200, 200, 200);
+    border-radius: 10px;
+    font: 32px Arial, sans-serif;
+    color: #123;
+    text-align: center;
+}
+
+.container button {
+    width: 15%;
+    height: 10.5vh;
+    background-color: rgb(200, 200, 200);
+    border-radius: 10px;
+    font: 32px Arial, sans-serif;
+    color: #123;
+    text-align: center;
+}
+
+.container #backBtn {
+    clear: both;
+    flex-grow: 3;
+}
+
 .container div:hover {
     background-color: rgb(94, 255, 0);
 }
@@ -55,7 +89,7 @@ h3 span {
 @media only screen and ( max-width: 800px) {
     h3 {
         font: 28px Arial, sans-serif;
-    }
+    }   
     .container div {
         width: 80%;
         height: 12vh;

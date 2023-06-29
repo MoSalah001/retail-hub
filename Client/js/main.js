@@ -1,28 +1,137 @@
 window.onload = ()=>{
+    const fragment = document.createDocumentFragment()
     const body = document.getElementById('body-main')
     const container = document.createElement('div')
     const back = document.createElement('div')
     back.textContent = "Go Back"
-    back.addEventListener('click',mainMenu)
+    back.id = "backBtn"
+    back.addEventListener('click',goBack)
     const logout = document.createElement('button')
     const lgoutDiv = document.createElement('div')
     lgoutDiv.id = 'lgout'
     logout.textContent = "Logout"
     logout.id = 'lgoutBtn'
     lgoutDiv.appendChild(logout)
+
+    const history = []; // an array to determine which element to be shown when click on go back btn
     
     checkLoggedUser();
 
-    function salesBranched(){
+    function fastLink(main , sub){
+        main.innerHTML=""
+        console.log(sub.id);
+        main.setAttribute('currnet',sub.id)
+        main.append(sub)
+    }
+
+    function linesBranched(){
+        fragment.innerHTML='';
         const nl = document.createElement('div')
         nl.textContent = "New Line"
         nl.id = 'nl'
+        nl.addEventListener('click',newLine)
         const al = document.createElement('div')
         al.textContent = "All Lines"
         al.id = 'al'
+        fragment.id = 'lines'
+        fragment.append(nl,al,back)
+        fastLink(container , fragment)
     }
 
-    function mainMenu(){ 
+    function newLine(){
+        fragment.innerHTML='';
+        const addLine = document.createElement('button')
+        addLine.textContent = "Submit Line"
+        addLine.addEventListener('click',submitLine)
+        const planType = document.createElement('select')
+        planType.id = 'LType'
+        const plansTypes = ['Select plan','pre','post']
+        const vc = document.createElement('select')
+        vc.id = "VC"
+        const vcValue = ['V-Cash',true,false]
+        const mi = document.createElement('select')
+        mi.id = "MI"
+        const miValue = ['MI','None',15,25,35,45,65,120,200,300]
+        const date = document.createElement('input')
+        date.type = 'date'
+        date.id = 'date'
+        const preLines = ['Select Tier',30,45,70,100,200,'14PTS']
+        const lines = document.createElement('select')
+        lines.id = 'LTier'
+
+        organizeForLoops(plansTypes,preLines,vcValue,miValue) // organize all loops in one single function for future editing and debugging
+
+        function organizeForLoops(types,tiers,vcValue,miValue){
+            for( let i in types) {
+                const option = document.createElement('option')
+                if (types[i] == 'Select plan'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = types[i]
+                option.text = types[i]
+                planType.append(option)
+            }
+            for( let i in tiers) {
+                const option = document.createElement('option')
+                if (tiers[i] == 'Select Tier'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = tiers[i]
+                option.text = tiers[i]
+                lines.append(option)
+            }
+            for(let i in vcValue){
+                const option = document.createElement('option')
+                if (vcValue[i] == 'V-Cash'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = vcValue[i]
+                option.text = vcValue[i]
+                vc.append(option)
+            }
+            for(let i in miValue){
+                const option = document.createElement('option')
+                if (miValue[i] == 'MI'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = miValue[i]
+                option.text = miValue[i]
+                mi.append(option)
+            }
+        }
+        fragment.append(planType,back)
+        planType.addEventListener('change',function(){
+            const checkType = planType.value == 'pre' ? true : false
+            if(checkType){
+                console.log('true');
+                fragment.append(planType,lines,vc,mi,date,addLine,back)
+                fastLink(container,fragment)
+            } else {
+                console.log('false');
+                fragment.append(planType,back)
+                fastLink(container,fragment)
+            }
+        })
+
+       
+
+        fastLink(container,fragment)
+    }
+
+    function goBack(){
+        console.log(this); 
         container.innerHTML = ''
         main(container); 
     }
@@ -31,6 +140,7 @@ window.onload = ()=>{
         const lines = document.createElement('div')
         lines.id = 'lines'
         lines.textContent = "Lines"
+        lines.addEventListener('click',linesBranched)
         const dsl = document.createElement('div')
         dsl.id = 'dsl'
         dsl.textContent = "DSL"
@@ -126,4 +236,21 @@ window.onload = ()=>{
         }
     }
 
+}
+
+
+function submitLine(){
+    const data ={
+        lineType :document.getElementById('LType').value ,
+        lineTier : document.getElementById('LTier').value,
+        lVC : document.getElementById('VC').value,
+        lMi : document.getElementById('MI').value,
+        sellDate:document.getElementById('date').value
+    }
+    if(data.lineType && data.lineTier && data.lVC && data.lMi && data.sellDate) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('post','/main',false)
+        xhr.setRequestHeader('content-type','application/json')
+        xhr.send(JSON.stringify(data))
+    }
 }
