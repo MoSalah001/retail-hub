@@ -88,6 +88,60 @@ h3 span {
     background-color: rgb(160, 200, 0);
 }
 
+.container table {
+    width: 98%;
+    background-color: rgb(200,200,200);
+    border-radius: 10px;
+    text-align: center;
+}
+.container table tbody th {
+    border: 2px solid blue;
+    border-radius: 10px 10px 0 0;
+    color: red;
+    font-size: 32px;
+    padding: 5px;
+}
+.container table tbody td {
+    border: 2px goldenrod solid;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 26px;
+}
+.container table tbody td input {
+    position: relative;
+    visibility: visible;
+    background-color: red;
+    width: 30px;
+    height: 30px;
+}
+.container table tbody td input::before {
+    top: -3px;
+    right: -30px;
+    content: "";
+    position: absolute;
+    visibility: visible;
+    background-color: rgb(255,255,255);
+    width: 75px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.container table tbody td input:checked::before {
+    top: -3px;
+    right: -30px;
+    content: "\2713";
+    font-size: 30px;
+    font-weight: 900;
+    font-style: oblique;
+    text-align: center;
+    color: red;
+    position: absolute;
+    visibility: visible;
+    background-color: rgb(255,255,0);
+    width: 75px;
+    height: 40px;
+    border-radius: 5px;
+}
 @media only screen and ( max-width: 800px) {
     h3 {
         font: 28px Arial, sans-serif;

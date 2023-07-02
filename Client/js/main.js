@@ -57,18 +57,24 @@ window.onload = ()=>{
                     <th>VC</th>
                     <th>Sell Date</th>
                     <th>Combo</th>
+                    <th>Select</th>
                 </tr>
                 `
                 table.append(tbody)
                 for(let i in data) {
                     const singleLine = document.createElement('tr')
+                    const check = document.createElement('td')
+                    check.innerHTML = `
+                    <input type="checkbox" onChange="check()"></input>
+                    `
                     const item = {
                         type: data[i].LineType,
                         line: data[i].LineTier,
                         VC:data[i].LineVC === true ? 'Yes' : 'No',
                         lineMi:data[i].LineMI,
                         Combo:(data[i].LineVC && data[i].LineMI !=='None') ? 'Yes' : 'No',
-                        sellDate: new Date(data[i].Date).toISOString().split('T')[0]
+                        sellDate: new Date(data[i].Date).toISOString().split('T')[0],
+                        checked: check
                     }
                     singleLine.innerHTML = `
                     <td>${item.type}</td>
@@ -78,6 +84,7 @@ window.onload = ()=>{
                     <td>${item.sellDate}</td>
                     <td>${item.Combo}</td>
                     `
+                    singleLine.append(check)
                     tbody.append(singleLine)
                 }
                 fragment.innerHTML=''
@@ -285,14 +292,27 @@ window.onload = ()=>{
 
 }
 
+function check(e){
+    console.log(e);
+}
+
 
 function submitLine(){
+    const lType = document.getElementById('LType')
+    const lTier = document.getElementById('LTier')
+    const lvc = document.getElementById('VC')
+    const lmi = document.getElementById('MI')
+    const sellDate = document.getElementById('date')
     const data ={
-        lineType :document.getElementById('LType').value ,
-        lineTier : document.getElementById('LTier').value,
-        lVC : document.getElementById('VC').value,
-        lMi : document.getElementById('MI').value,
-        sellDate:document.getElementById('date').value
+        lineType :lType.value ,
+        lineTier : lTier.value,
+        lVC : lvc.value,
+        lMi : lmi.value,
+        sellDate:sellDate.value
+    }
+    const clean = [lTier,lvc,lmi,sellDate]
+    for(let i in clean){
+        clean[i].value=''
     }
     if(data.lineType && data.lineTier && data.lVC && data.lMi && data.sellDate) {
         const xhr = new XMLHttpRequest();
@@ -300,4 +320,5 @@ function submitLine(){
         xhr.setRequestHeader('content-type','application/json')
         xhr.send(JSON.stringify(data))
     }
+
 }
