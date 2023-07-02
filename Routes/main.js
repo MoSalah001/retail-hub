@@ -1,10 +1,8 @@
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const Line = require('../models/line');
-const line = require("../models/line");
 
 router.post('/', (req,res)=>{
-    console.log(req.headers.cookie);
     const parser = req.headers.cookie.split("=")[1]
     let token = parser.split(';')[0]
     try {
@@ -29,6 +27,15 @@ router.post('/', (req,res)=>{
         // res.cookie('user','')
         res.status(401).send({message:'unauthorised'})
     }
+})
+
+router.post('/all', async (req,res)=>{
+    const cookies = req.headers.cookie.split('=')
+    const data = {
+        staffID: cookies[2]
+    }
+    const arr = await Line.find({StaffID: data.staffID})
+    res.send(arr)
 })
 
 module.exports = router

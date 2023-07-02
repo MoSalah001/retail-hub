@@ -19,7 +19,6 @@ window.onload = ()=>{
 
     function fastLink(main , sub){
         main.innerHTML=""
-        console.log(sub.id);
         main.setAttribute('currnet',sub.id)
         main.append(sub)
     }
@@ -33,9 +32,59 @@ window.onload = ()=>{
         const al = document.createElement('div')
         al.textContent = "All Lines"
         al.id = 'al'
+        al.addEventListener('click',showAllLines)
         fragment.id = 'lines'
         fragment.append(nl,al,back)
         fastLink(container , fragment)
+    }
+
+    function showAllLines(){
+        const xhr = new XMLHttpRequest()
+        xhr.open('post','/main/all')
+        xhr.send()
+        xhr.onreadystatechange = ()=>{
+            if(xhr.readyState === 4) {
+                const data = JSON.parse(xhr.responseText)
+                const div = document.createElement('div')
+                div.id = 'allLinesContainer'
+                const table = document.createElement('table')
+                const tbody = document.createElement('tbody')
+                tbody.innerHTML = `
+                <tr>
+                    <th>Line Type</th>
+                    <th>Line Tier</th>
+                    <th>MI</th>
+                    <th>VC</th>
+                    <th>Sell Date</th>
+                    <th>Combo</th>
+                </tr>
+                `
+                table.append(tbody)
+                for(let i in data) {
+                    const singleLine = document.createElement('tr')
+                    const item = {
+                        type: data[i].LineType,
+                        line: data[i].LineTier,
+                        VC:data[i].LineVC === true ? 'Yes' : 'No',
+                        lineMi:data[i].LineMI,
+                        Combo:(data[i].LineVC && data[i].LineMI !=='None') ? 'Yes' : 'No',
+                        sellDate: new Date(data[i].Date).toISOString().split('T')[0]
+                    }
+                    singleLine.innerHTML = `
+                    <td>${item.type}</td>
+                    <td>${item.line}</td>
+                    <td>${item.lineMi}</td>
+                    <td>${item.VC}</td>
+                    <td>${item.sellDate}</td>
+                    <td>${item.Combo}</td>
+                    `
+                    tbody.append(singleLine)
+                }
+                fragment.innerHTML=''
+                fragment.appendChild(table)
+                fastLink(container,fragment)
+            }
+        }
     }
 
     function newLine(){
@@ -116,11 +165,9 @@ window.onload = ()=>{
         planType.addEventListener('change',function(){
             const checkType = planType.value == 'pre' ? true : false
             if(checkType){
-                console.log('true');
                 fragment.append(planType,lines,vc,mi,date,addLine,back)
                 fastLink(container,fragment)
             } else {
-                console.log('false');
                 fragment.append(planType,back)
                 fastLink(container,fragment)
             }
@@ -132,7 +179,6 @@ window.onload = ()=>{
     }
 
     function goBack(){
-        console.log(this); 
         container.innerHTML = ''
         main(container); 
     }
