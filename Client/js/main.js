@@ -14,6 +14,14 @@ window.onload = ()=>{
     lgoutDiv.appendChild(logout)
 
     const history = []; // an array to determine which element to be shown when click on go back btn
+
+    function checkHistory(value){
+        if(history.includes(value)){
+            return null
+        } else {
+            history.push(value)
+        }
+    }
     
     checkLoggedUser();
 
@@ -35,6 +43,7 @@ window.onload = ()=>{
         al.addEventListener('click',showAllLines)
         fragment.id = 'lines'
         fragment.append(nl,al,back)
+        checkHistory("Sales")
         fastLink(container , fragment)
     }
 
@@ -169,6 +178,7 @@ window.onload = ()=>{
             }
         }
         fragment.append(planType,back)
+
         planType.addEventListener('change',function(){
             const checkType = planType.value == 'pre' ? true : false
             if(checkType){
@@ -181,13 +191,40 @@ window.onload = ()=>{
         })
 
        
-
+        checkHistory('Lines')
         fastLink(container,fragment)
     }
 
     function goBack(){
-        container.innerHTML = ''
-        main(container); 
+        const currentDiv = history.length
+        const target = history[currentDiv-1]
+        switch(target){
+            case "Main" :
+                container.innerHTML = ''
+                main(container)
+                history.pop()
+                break;
+            case "Sales" :
+                container.innerHTML = ''
+                sales(container) 
+                history.pop()
+                break;
+            case "Lines" :
+                container.innerHTML = ""
+                linesBranched()
+                history.pop()
+                break;
+            case "New Line" : 
+                container.innerHTML = ""
+                newLine()
+                history.pop()
+                break;
+            default:
+                container.innerHTML = ""
+                main(container)
+                history.pop()
+        }
+        
     }
 
     function sales(div){ // sales section
@@ -205,6 +242,7 @@ window.onload = ()=>{
         mnp.id = 'mnp'
         mnp.textContent = "MNP"
         div.append(lines,dsl,terminal,mnp,back)
+        checkHistory("Main")
     }
 
     function srs(div){ // SRs section
