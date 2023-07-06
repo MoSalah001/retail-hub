@@ -10,7 +10,7 @@ const lines = mongo.Schema({
         required: true
     },
     LineVC:{
-        type: Boolean,
+        type: String,
         required: true
     },
     LineMI:{
@@ -23,6 +23,10 @@ const lines = mongo.Schema({
     },
     StaffID:{
         type: Number,
+        required: true
+    },
+    Origin:{
+        type: String,
         required: true
     }
 })

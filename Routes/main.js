@@ -15,10 +15,11 @@ router.post('/', (req,res)=>{
             LineVC: data.lVC,
             LineMI: data.lMi,
             Date: data.sellDate,
-            StaffID: staffID
+            StaffID: staffID,
+            Origin: data.Origin
         })
         line.save();
-        res.status(200).send()
+        res.status(200).send({message:"Line Added"})
     }
     catch(err) {
         // res.cookie('token','',{

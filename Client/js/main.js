@@ -64,11 +64,12 @@ window.onload = ()=>{
                     <th>Line Tier</th>
                     <th>MI</th>
                     <th>VC</th>
-                    <th>Sell Date</th>
-                    <th>Combo</th>
+                    <th id="sellDate">Sell Date</th> 
+                    <th>Origin</th>
                     <th>Select</th>
                 </tr>
                 `
+                // <th>Combo</th>
                 table.append(tbody)
                 for(let i in data) {
                     const singleLine = document.createElement('tr')
@@ -76,28 +77,33 @@ window.onload = ()=>{
                     check.innerHTML = `
                     <input type="checkbox" onChange="check()"></input>
                     `
+                    const shortDate = new Date(data[i].Date).toISOString().split("T")[0].split("-")
+                    const finalDate = `${shortDate[2]}-${shortDate[1]}-${shortDate[0].slice(2,4)}`
                     const item = {
                         type: data[i].LineType,
                         line: data[i].LineTier,
-                        VC:data[i].LineVC === true ? 'Yes' : 'No',
+                        VC:data[i].LineVC === true ? 'Yes' : data[i].LineType === "Post" ? "-":"No",
                         lineMi:data[i].LineMI,
                         Combo:(data[i].LineVC && data[i].LineMI !=='None') ? 'Yes' : 'No',
-                        sellDate: new Date(data[i].Date).toISOString().split('T')[0],
-                        checked: check
+                        sellDate: finalDate,
+                        checked: check,
+                        Origin: data[i].Origin === "Conversion" ? "Conv" : data[i].Origin
                     }
                     singleLine.innerHTML = `
                     <td>${item.type}</td>
                     <td>${item.line}</td>
                     <td>${item.lineMi}</td>
                     <td>${item.VC}</td>
-                    <td>${item.sellDate}</td>
-                    <td>${item.Combo}</td>
+                    <td id="sellDate">${item.sellDate}</td>
+                    <td>${item.Origin}</td>
                     `
+                    // <td>${item.Combo}</td>
                     singleLine.append(check)
                     tbody.append(singleLine)
                 }
                 fragment.innerHTML=''
                 fragment.appendChild(table)
+                fragment.appendChild(back)
                 fastLink(container,fragment)
             }
         }
@@ -110,7 +116,8 @@ window.onload = ()=>{
         addLine.addEventListener('click',submitLine)
         const planType = document.createElement('select')
         planType.id = 'LType'
-        const plansTypes = ['Select plan','pre','post']
+        const plansTypes = ['Select plan','Pre','Post']
+        // Pre section
         const vc = document.createElement('select')
         vc.id = "VC"
         const vcValue = ['V-Cash',true,false]
@@ -120,14 +127,20 @@ window.onload = ()=>{
         const date = document.createElement('input')
         date.type = 'date'
         date.id = 'date'
-        date.placeholder = "Selling Date"
         const preLines = ['Select Tier',30,45,70,100,200,'14PTS']
         const lines = document.createElement('select')
         lines.id = 'LTier'
+        // post section
+        const postTier = document.createElement('select')
+        postTier.id = "PTier"
+        const postTiers = ['Select Tier',300,500,700,1000]
+        const origin = document.createElement('select')
+        origin.id = "Origin"
+        const originTypes = ["Select Origin","New Line","Conversion"]
+        // organize all loops in one single function for future editing and debugging
+        organizeForLoops(plansTypes,preLines,vcValue,miValue,postTiers,originTypes) 
 
-        organizeForLoops(plansTypes,preLines,vcValue,miValue) // organize all loops in one single function for future editing and debugging
-
-        function organizeForLoops(types,tiers,vcValue,miValue){
+        function organizeForLoops(types,tiers,vcValue,miValue,postTiers,postOrigin){
             for( let i in types) {
                 const option = document.createElement('option')
                 if (types[i] == 'Select plan'){
@@ -176,21 +189,44 @@ window.onload = ()=>{
                 option.text = miValue[i]
                 mi.append(option)
             }
+            for( let i in postTiers) {
+                const option = document.createElement('option')
+                if (postTiers[i] == 'Select Tier'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = postTiers[i]
+                option.text = postTiers[i]
+                postTier.append(option)
+            }
+            for( let i in postOrigin) {
+                const option = document.createElement('option')
+                if (postOrigin[i] == 'Select Origin'){
+                    option.value = ''
+                    option.selected = 'selected'
+                    option.disabled = true
+                    option.hidden = 'hidden'    
+                }
+                option.value = postOrigin[i]
+                option.text = postOrigin[i]
+                origin.append(option)
+            }
         }
+
         fragment.append(planType,back)
 
         planType.addEventListener('change',function(){
-            const checkType = planType.value == 'pre' ? true : false
+            const checkType = planType.value == 'Pre' ? true : false
             if(checkType){
                 fragment.append(planType,lines,vc,mi,date,addLine,back)
                 fastLink(container,fragment)
             } else {
-                fragment.append(planType,back)
+                fragment.append(planType,postTier,origin,date,addLine,back)
                 fastLink(container,fragment)
             }
         })
-
-       
         checkHistory('Lines')
         fastLink(container,fragment)
     }
@@ -340,19 +376,25 @@ function submitLine(){
     const lTier = document.getElementById('LTier')
     const lvc = document.getElementById('VC')
     const lmi = document.getElementById('MI')
+    const PTier = document.getElementById('PTier')
+    const origin = document.getElementById('Origin')
     const sellDate = document.getElementById('date')
     const data ={
         lineType :lType.value ,
-        lineTier : lTier.value,
-        lVC : lvc.value,
-        lMi : lmi.value,
-        sellDate:sellDate.value
+        lineTier : lType.value == "Pre" ? lTier.value : PTier.value,
+        lVC : lType.value == "Pre" ? lvc.value : "-",
+        lMi : lType.value == "Pre" ? lmi.value : "-",
+        sellDate:sellDate.value,
+        Origin : lType.value == "Pre" ? "-" : origin.value
     }
-    const clean = [lTier,lvc,lmi,sellDate]
+    const clean = [lTier,lvc,lmi,sellDate,PTier,origin]
     for(let i in clean){
-        clean[i].value=''
+        if(clean[i] == null) continue
+        {
+            clean[i].value=''
+        }
     }
-    if(data.lineType && data.lineTier && data.lVC && data.lMi && data.sellDate) {
+    if(data.lineType && data.lineTier && data.lVC && data.lMi && data.sellDate && data.Origin) {
         const xhr = new XMLHttpRequest();
         xhr.open('post','/main',false)
         xhr.setRequestHeader('content-type','application/json')
