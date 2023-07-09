@@ -35,7 +35,8 @@ router.post('/all', async (req,res)=>{
     const data = {
         staffID: cookies[2]
     }
-    const arr = await Line.find({StaffID: data.staffID})
+    const arr = await Line.find({StaffID: data.staffID}).sort({"Date":-1})
+    console.log(arr);
     res.send(arr)
 })
 

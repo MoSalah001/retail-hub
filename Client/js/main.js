@@ -31,6 +31,67 @@ window.onload = ()=>{
         main.append(sub)
     }
 
+    function goBack(){
+        const currentDiv = history.length
+        const target = history[currentDiv-1]
+        switch(target){
+            case "Main" :
+                container.innerHTML = ''
+                main(container)
+                history.pop()
+                break;
+            case "Sales" :
+                container.innerHTML = ''
+                sales(container) 
+                history.pop()
+                break;
+            case "Lines"    :
+                container.innerHTML = ""
+                linesBranched()
+                history.pop()
+                break;
+            case "New Line" : 
+                container.innerHTML = ""
+                newLine()
+                history.pop()
+                break;
+            case "Lines Branched": 
+                container.innerHTML = ""
+                linesBranched()
+                history.pop()
+                break;
+            case "DSL" :
+                container.innerHTML = ''
+                sales(container) 
+                history.pop()
+                break;
+            default:
+                container.innerHTML = ""
+                main(container)
+                history.pop()
+        }
+        
+    }
+
+    function sales(div){ // sales section
+        const lines = document.createElement('div')
+        lines.id = 'lines'
+        lines.textContent = "Lines"
+        lines.addEventListener('click',linesBranched)
+        const dsl = document.createElement('div')
+        dsl.id = 'dsl'
+        dsl.textContent = "DSL"
+        dsl.addEventListener('click',dslBranched)
+        const terminal = document.createElement('div')
+        terminal.id = 'terminal'
+        terminal.textContent = "Terminal"
+        const mnp = document.createElement('div')
+        mnp.id = 'mnp'
+        mnp.textContent = "MNP"
+        div.append(lines,dsl,terminal,mnp,back)
+        checkHistory("Main")
+    }
+
     function linesBranched(){
         fragment.innerHTML='';
         const nl = document.createElement('div')
@@ -48,6 +109,7 @@ window.onload = ()=>{
     }
 
     function showAllLines(){
+        checkHistory('Lines Branched')
         const xhr = new XMLHttpRequest()
         xhr.open('post','/main/all')
         xhr.send()
@@ -80,6 +142,7 @@ window.onload = ()=>{
                     const shortDate = new Date(data[i].Date).toISOString().split("T")[0].split("-")
                     const finalDate = `${shortDate[2]}-${shortDate[1]}-${shortDate[0].slice(2,4)}`
                     const item = {
+                        id: data[i]._id,
                         type: data[i].LineType,
                         line: data[i].LineTier,
                         VC:data[i].LineVC === true ? 'Yes' : data[i].LineType === "Post" ? "-":"No",
@@ -231,54 +294,20 @@ window.onload = ()=>{
         fastLink(container,fragment)
     }
 
-    function goBack(){
-        const currentDiv = history.length
-        const target = history[currentDiv-1]
-        switch(target){
-            case "Main" :
-                container.innerHTML = ''
-                main(container)
-                history.pop()
-                break;
-            case "Sales" :
-                container.innerHTML = ''
-                sales(container) 
-                history.pop()
-                break;
-            case "Lines" :
-                container.innerHTML = ""
-                linesBranched()
-                history.pop()
-                break;
-            case "New Line" : 
-                container.innerHTML = ""
-                newLine()
-                history.pop()
-                break;
-            default:
-                container.innerHTML = ""
-                main(container)
-                history.pop()
-        }
-        
-    }
-
-    function sales(div){ // sales section
-        const lines = document.createElement('div')
-        lines.id = 'lines'
-        lines.textContent = "Lines"
-        lines.addEventListener('click',linesBranched)
-        const dsl = document.createElement('div')
-        dsl.id = 'dsl'
-        dsl.textContent = "DSL"
-        const terminal = document.createElement('div')
-        terminal.id = 'terminal'
-        terminal.textContent = "Terminal"
-        const mnp = document.createElement('div')
-        mnp.id = 'mnp'
-        mnp.textContent = "MNP"
-        div.append(lines,dsl,terminal,mnp,back)
-        checkHistory("Main")
+    function dslBranched(){
+        checkHistory('DSL')
+        const fragment = document.createDocumentFragment();
+        const newDsl = document.createElement('div')
+        newDsl.id = "new-dsl"
+        newDsl.textContent = "New DSL"
+        const editDsl = document.createElement('div')
+        editDsl.id = "edit-dsl"
+        editDsl.textContent = "Update DSL"
+        const showDsls = document.createElement('div')
+        showDsls.id = "show-dsl"
+        showDsls.textContent = "All DSLs"
+        fragment.append(newDsl,editDsl,showDsls,back)
+        fastLink(container,fragment)
     }
 
     function srs(div){ // SRs section
@@ -365,11 +394,6 @@ window.onload = ()=>{
     }
 
 }
-
-function check(e){
-    console.log(e);
-}
-
 
 function submitLine(){
     const lType = document.getElementById('LType')
