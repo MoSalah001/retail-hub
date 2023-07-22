@@ -47,6 +47,13 @@ h3 span {
     font: 52px Arial, sans-serif;
     transition: 0.15s;
 }
+.container label {
+    color: rgba(255,255,0,1);
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    font-size: 28px;
+}
 
 .container select {
     width: 15%;
@@ -57,14 +64,19 @@ h3 span {
     color: #123;
     text-align: center;
 }
-.container input[type = 'date'] {
-    width: 15%;
+
+.container input {
+    width: 100%;
     height: 10vh;
     background-color: rgb(200, 200, 200);
     border-radius: 10px;
     font: 32px Arial, sans-serif;
     color: #123;
     text-align: center;
+}
+
+.container #date {
+    width: 15%;
 }
 
 .container button {

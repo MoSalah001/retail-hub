@@ -3,8 +3,15 @@ window.onload = ()=>{
     const body = document.getElementById('body-main')
     const container = document.createElement('div')
     const back = document.createElement('div')
+    const home = document.createElement('div')
+    const nav = document.createElement('div') // parent element for nav buttons
+    home.textContent = "Home"
+    home.id = "home"
+    home.classList.add('nav')
+    home.addEventListener('click',goHome)
     back.textContent = "Go Back"
     back.id = "backBtn"
+    back.classList.add('nav')
     back.addEventListener('click',goBack)
     const logout = document.createElement('button')
     const lgoutDiv = document.createElement('div')
@@ -12,9 +19,7 @@ window.onload = ()=>{
     logout.textContent = "Logout"
     logout.id = 'lgoutBtn'
     lgoutDiv.appendChild(logout)
-
     const history = []; // an array to determine which element to be shown when click on go back btn
-
     function checkHistory(value){
         if(history.includes(value)){
             return null
@@ -22,9 +27,11 @@ window.onload = ()=>{
             history.push(value)
         }
     }
-    
+    function goHome(){
+        container.innerHTML = ""
+        main(container)
+    }
     checkLoggedUser();
-
     function fastLink(main , sub){
         main.innerHTML=""
         main.setAttribute('currnet',sub.id)
@@ -72,7 +79,6 @@ window.onload = ()=>{
         }
         
     }
-
     function sales(div){ // sales section
         const lines = document.createElement('div')
         lines.id = 'lines'
@@ -91,7 +97,6 @@ window.onload = ()=>{
         div.append(lines,dsl,terminal,mnp,back)
         checkHistory("Main")
     }
-
     function linesBranched(){
         fragment.innerHTML='';
         const nl = document.createElement('div')
@@ -107,7 +112,6 @@ window.onload = ()=>{
         checkHistory("Sales")
         fastLink(container , fragment)
     }
-
     function showAllLines(){
         checkHistory('Lines Branched')
         const xhr = new XMLHttpRequest()
@@ -171,7 +175,6 @@ window.onload = ()=>{
             }
         }
     }
-
     function newLine(){
         fragment.innerHTML='';
         const addLine = document.createElement('button')
@@ -293,7 +296,6 @@ window.onload = ()=>{
         checkHistory('Lines')
         fastLink(container,fragment)
     }
-
     function dslBranched(){
         checkHistory('DSL')
         const fragment = document.createDocumentFragment();
@@ -306,10 +308,10 @@ window.onload = ()=>{
         const showDsls = document.createElement('div')
         showDsls.id = "show-dsl"
         showDsls.textContent = "All DSLs"
+        newDsl.addEventListener('click',newDSL)
         fragment.append(newDsl,editDsl,showDsls,back)
         fastLink(container,fragment)
     }
-
     function srs(div){ // SRs section
         const newSR = document.createElement('div')
         newSR.textContent = "New SR";
@@ -317,7 +319,6 @@ window.onload = ()=>{
         srs.textContent= "All SRs"
         div.append(newSR,srs,back)
     }
-
     function eventHandler(){ // unifed event listener function to handle navigation
         switch(this.id){
             case "sales":
@@ -338,7 +339,6 @@ window.onload = ()=>{
                 window.alert("soon ...")
         }
         }
-
     function main(div){ // main menu elements
         const sales = document.createElement('div')
         sales.textContent = "Sales"
@@ -362,7 +362,6 @@ window.onload = ()=>{
         }
         div.append(sales,srs,monthlyReport,targetCalculator,bug)
     }
-
     function checkLoggedUser(){     //check if user is logged
         const user = document.cookie.slice('5')
         if(user.length < 2){
@@ -392,9 +391,36 @@ window.onload = ()=>{
             }
         }
     }
-
+    function newDSL(){
+        const fragment = document.createDocumentFragment()
+        const submit = document.createElement('button')
+        submit.textContent = "Submit"
+        submit.addEventListener('click',submitDSL)
+        const labelLL = document.createElement('label')
+        labelLL.textContent = "Landline Number: "
+        const landLine = document.createElement('input')
+        landLine.type = "Number"
+        landLine.required = true
+        landLine.id = "landline"
+        const labelDate = document.createElement('label')
+        labelDate.textContent = "Date: "
+        const date = document.createElement('input')
+        date.type = "Date"
+        date.required = true
+        date.id = "dateDsl"
+        const labelMobile = document.createElement('label')
+        labelMobile.textContent = "Mobile Number: "
+        const mobile = document.createElement('input')
+        mobile.type = "Number"
+        mobile.required = true
+        mobile.id = "mobile"
+        labelLL.append(landLine)
+        labelDate.append(date)
+        labelMobile.append(mobile)
+        fragment.append(labelLL,labelDate,labelMobile,submit,back)
+        fastLink(container,fragment)       
+    }
 }
-
 function submitLine(){
     const lType = document.getElementById('LType')
     const lTier = document.getElementById('LTier')
@@ -424,5 +450,18 @@ function submitLine(){
         xhr.setRequestHeader('content-type','application/json')
         xhr.send(JSON.stringify(data))
     }
+}
 
+function submitDSL(){
+    const data = {
+        landline: document.getElementById('landline').value,
+        mobile:document.getElementById('mobile').value,
+        date:document.getElementById('dateDsl').value
+    }
+    if (data.landline && data.mobile && data.date) {
+        const xhr = new XMLHttpRequest()
+        xhr.open('post','/main/dsl')
+        xhr.setRequestHeader('content-type','application/json')
+        xhr.send(JSON.stringify(data))
+    }
 }

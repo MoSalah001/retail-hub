@@ -1,4 +1,4 @@
-const mongo = required('mongoose')
+const mongo = require('mongoose')
 
 const dsl = mongo.Schema({
     MSISDN: {
